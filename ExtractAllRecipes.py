@@ -1,10 +1,9 @@
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
-from Integration import all_tags, get_new_recipe_id
+from Integration import all_tags, get_new_recipe_id, ingredients_set
 
-all_tags = {}
-ingredients_set = {}
 # FODIE WEBSITE
+
 
 def add_to_tags_list(tags, recipe_id):
     for t in tags:

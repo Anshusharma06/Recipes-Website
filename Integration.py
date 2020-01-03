@@ -13,7 +13,9 @@ def get_new_recipe_id():
 def fill_all_tags():
     for ingredient in ingredients_set:
         all_tags[ingredient] = []
-fill_all_tags
+
+
+fill_all_tags()
 
 # read from foodie
 foodie_recipes = {}
