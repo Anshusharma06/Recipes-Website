@@ -1,4 +1,4 @@
-from ReadFromCSV.py import save_into_csv
+from ReadFromCSV import save_into_csv
 
 all_tags = {}
 recipe_counter = 0
