@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<title>W3.CSS Template</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<!-- <link rel="stylesheet" type="text/css" href="./bootstrap-tagsinput.css" media="screen"/> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/css/bootstrap-select.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<style>
+  html {
+  scroll-behavior: smooth;
+}
+body {font-family: "Times New Roman", Georgia, Serif;}
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Playfair Display";
+  letter-spacing: 5px;
+}
+
+#page_content{
+  position: relative;
+    /* min-height: 400px; */
+}
+
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid blue;
+  border-right: 16px solid green;
+  border-bottom: 16px solid red;
+  border-left: 16px solid pink;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#recipe_content{
+    min-height: 400px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#loader_content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#search{
+  left: 148px;
+    top: 100px;
+    position: relative;
+    left: 10;
+    right: 10px;
+    font-size: 22px;
+}
+</style>
+<body>
+
+
+<!-- Header -->
+<header class="w3-display-container w3-content w3-wide" style="position: relative; max-width:1600px;min-width:500px;height: 100vh;overflow: hidden;" id="home">
+  <img class="w3-image" src="./background.jpg" alt="Hamburger Catering" width="1600" height="800">
+    <div style="
+    position: absolute;
+    top: 23%;
+    left: 68%;
+    ">
+    <h1 style="color: burlywood;opacity: 0.75;font-size: 520%;
+    width: 700px;position: relative;
+    right: 24%;">חיפוש מתכונים</h1>
+    <div class="col-lg-12" style="position: absolute;
+    top: 151px;">
+      <select class="selectpicker" multiple data-live-search="true">
+        <option>כוסברה</option>
+      </select>
+  </div>
+
+  <a type="button" id="search" class="btn btn-success" href="#page_content" >חיפוש</a>
+
+    </div>
+</header>
+
+
+<!-- Page content -->
+<div class="w3-content" id="page_content" style="max-width:1100px;direction: rtl;">
+
+</div>
+
+<!-- Footer -->
+<footer class="w3-center w3-light-grey w3-padding-32">
+  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">Ofir & Hadas</a></p>
+</footer>
+
+</body>
+
+
+<script>
+
+  const loader_html = `
+<div id="recipe_content">
+<div id="loader_content">
+  <h1>מחפש מתכונים...</h1>
+  <div class="loader"></div>
+  </div>
+</div>
+
+  `;
+
+
+  const dummyRecipe = `
+<br><br>
+  <hr>
+  <h4>הוראות הכנה</h4>
+  <ul>
+    <li>משהו משהו</li>
+    <li>משהו</li>
+    <li>משהו</li>
+  </ul>
+  <br><br>
+  `;
+$( "#search" ).click(async function() {
+  $( "#page_content" ).empty();
+  $( "#page_content" ).append( loader_html );
+ const recipes = await setTimeout(()=>{
+   const data="efef";
+  axios.get('http://127.0.0.1:5000/'/* , JSON.stringify(data) */)
+            .then(function (res) {
+              console.log(res);
+            })
+            // .catch(function (err) {
+            //   console.log(err);
+            // });
+
+  setRecipes();
+}
+  ,2000);;
+});
+
+
+function setRecipes(){
+  $( "#page_content" ).empty();
+  $( "#page_content").append(dummyRecipe);
+  $( "#page_content").append(dummyRecipe);
+  $( "#page_content").append(dummyRecipe);
+}
+
+</script>
+</html>
