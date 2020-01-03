@@ -96,6 +96,9 @@ h1, h2, h3, h4, h5, h6 {
     top: 151px;">
       <select class="selectpicker" multiple data-live-search="true">
         <option>כוסברה</option>
+        <option>עגבניות</option>
+        <option>חציל</option>
+        <option>פלפל</option>
       </select>
   </div>
 
@@ -143,29 +146,52 @@ h1, h2, h3, h4, h5, h6 {
   <br><br>
   `;
 $( "#search" ).click(async function() {
+  var ingredients = [];
+        $.each($(".selectpicker option:selected"), function(){
+          ingredients.push($(this).val());
+        });
+  if(ingredients.length==0){
+    alert("You must choose at least one ingredient!");
+    return;
+  }
   $( "#page_content" ).empty();
   $( "#page_content" ).append( loader_html );
  const recipes = await setTimeout(()=>{
-   const data="efef";
-  axios.get('http://127.0.0.1:5000/'/* , JSON.stringify(data) */)
-            .then(function (res) {
-              console.log(res);
-            })
-            // .catch(function (err) {
-            //   console.log(err);
-            // });
+   const ingredients_json = JSON.stringify(ingredients);
+  $.post('http://127.0.0.1:5000/',ingredients_json, function (data){
+    const recipiesHtmlElements = data.map(createRecipeHtmlElement);
+    setRecipes(recipiesHtmlElements);
+  });
 
-  setRecipes();
 }
   ,2000);;
 });
 
 
-function setRecipes(){
+function setRecipes(recipiesHtmlElements){
   $( "#page_content" ).empty();
-  $( "#page_content").append(dummyRecipe);
-  $( "#page_content").append(dummyRecipe);
-  $( "#page_content").append(dummyRecipe);
+  console.log(recipiesHtmlElements);
+  recipiesHtmlElements.forEach(element =>
+    $( "#page_content").append(element));
+}
+
+function createRecipeHtmlElement(recipe){
+  const ingredients = JSON.parse(recipe.ingredients);
+  const instructions = recipe.instructions;
+  return `
+  <br><br>
+  <hr>
+  <h4>מצרכים</h4>
+  <ul>
+    ${ingredients.map(ingredient => `<li>${ingredient}</li>`).join("")}
+  </ul>
+  <h4>הוראות הכנה</h4>
+  <ul>
+    ${instructions.map(instruction => `<li>${instruction}</li>`).join("")}
+  </ul>
+  <br>
+  `
+  ;
 }
 
 </script>
