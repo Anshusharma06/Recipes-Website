@@ -1,6 +1,5 @@
 import csv
 
-all_recipes = {}
 the_tags_url = 'tags.csv'
 the_ingredients_url = 'ingredients.csv'
 the_instructions_url = 'instructions.csv'
@@ -57,11 +56,3 @@ def read_recipes_csc(ingredients_url, instructions_url,general_data_url, recipes
         instructions = filter(lambda recipe: recipe['id'] == id, instructions_list).__next__()
         return_recipes = return_recipes + [{'id': id, 'ingredients': ingredients['ingredients'], 'instructions': instructions['instructions']}]
     return return_recipes
-
-
-save_into_csv(the_instructions_url, the_ingredients_url, all_recipes)
-
-
-print("********************************************************8")
-print(all_recipes)
-print("********************************************************8")

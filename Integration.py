@@ -1,3 +1,4 @@
+from ReadFromCSV.py import save_into_csv
 
 all_tags = {}
 recipe_counter = 0
@@ -25,3 +26,5 @@ sugat_recipes = {}
 
 # {id: int, 'url': '', 'tags': [], 'ingredients': [],'instructions': [],name: ''}
 all_recipes = {}
+
+save_into_csv(the_instructions_url, the_ingredients_url, all_recipes)
