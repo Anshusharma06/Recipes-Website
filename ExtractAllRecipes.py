@@ -1,26 +1,10 @@
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
+from Integration import all_tags, get_new_recipe_id
 
-recipe_counter = 0
-
-
-def get_new_recipe_id():
-    global recipe_counter
-    recipe_counter = recipe_counter + 1
-    return recipe_counter
-
-# FODIE WEBSITE
 all_tags = {}
-ingredients_set = {'בשר','בצל' ,'שום','ביצה','ביצים','עגבניה','עגבניות','לחם','כמון','פלפל','שמן','מלח','מים','אורז','חצילונים', 'שמן זית', 'בצל', 'בשר בקר טחון', 'עגבניות שרי', 'מים', 'אסאדו', 'גזר', 'כרשה', 'יין לבן יבש', 'תימין טרי', 'שום', 'מלח דק', 'שוק עוף ללא עור', 'כנפי עוף', 'סלרי', 'זוקיני ירוק', 'בטטה', 'מים רותחים', 'עלה דפנה', 'פטרוזיליה', 'אטריות ביצים', 'קינואה', 'פילה דג סלמון', 'עגבנייה', 'פלפל אדום', 'פלפל צ’ילי אדום', 'פלפל ירוק', 'פלפל כתום', 'אורז יסמין', 'קייל', 'נענע', 'צנוברים', 'צימוקים כהים', 'פלפל שחור גרוס', 'בצק פילו', 'תרסיס שמן בטעם חמאה', 'שקדים טחונים', 'סוכר לבן', 'אגוזי מלך טחונים', 'אגוזי פקאן', 'קינמון טחון', 'דבש', 'חמאה', 'תפוח עץ גרני סמיט (ירוק)', 'סוכר חום כהה', 'מעדן פרי תפוח וקינמון', 'אבקת סוכר', 'גלידת וניל', 'מיץ רימונים', 'מיץ לימון', 'קמח לבן'}
-
-
-def fill_all_tags():
-    for ingredient in ingredients_set:
-        all_tags[ingredient] = []
-
-
-fill_all_tags()
-
+ingredients_set = {}
+# FODIE WEBSITE
 
 def add_to_tags_list(tags, recipe_id):
     for t in tags:
@@ -125,41 +109,3 @@ all_recipes = main_page('https://foody.co.il/%D7%A7%D7%98%D7%92%D7%95%D7%A8%D7%9
 
 
 print(all_recipes)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# מציאת האתרי מתכונים
-# url = 'https://foody.co.il/category/%d7%aa%d7%95%d7%a1%d7%a4%d7%95%d7%aa/%d7%90%d7%95%d7%a8%d7%96/?page=10'
-# page = urlopen(url)
-# soup = BeautifulSoup(page)
-# table = soup.find_all('div',class_='container-fluid feed-container term-feed-container')
-#
-# websites =[]
-# for t in table:
-#     for u in t.find_all('a'):
-#         y = u.get('href')
-#         if "foody_recipe" in y:
-#             websites.append(y)
-# websites = list(dict.fromkeys(websites))
-#
-# print(websites.__len__())
-
-# main website
-    # except:
-    #     print("bad url",category_url)
-    # finally:
-    #     print("__________________________________________________________")

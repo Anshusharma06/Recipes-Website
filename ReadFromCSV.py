@@ -1,7 +1,6 @@
 import csv
-from ExtractAllRecipes import all_recipes
 
-
+all_recipes = {}
 the_tags_url = 'tags.csv'
 the_ingredients_url = 'ingredients.csv'
 the_instructions_url = 'instructions.csv'
