@@ -6,32 +6,17 @@ from Integration import all_tags, get_new_recipe_id, ingredients_set
 # FODIE WEBSITE
 foodie_url = "https://foody.co.il/%D7%A7%D7%98%D7%92%D7%95%D7%A8%D7%99%D7%95%D7%AA/"
 
-def add_to_tags_list(tags, recipe_id):
-    for t in tags:
-        all_tags[t] = all_tags[t].append(recipe_id)
 
-
-def extractIngredientTags(ingredients):
-    tags = []
-    for ingredient in ingredients:
-        words = ingredient.split()
-        for word in words:
-            if word in ingredients_set:
-                tags.append(word)
-    return tags
 
 
 def find_main_page_categories_url(table_url):
     # gose all over the categories
     categories_url = []
     for item in table_url:
-
             for c in item.find_all('a'):
                 y = c.get('href')
                 if "foody.co.il/category" in y:
                     categories_url.append(y)
-    print("end finding category url")
-    print("**************************************************************")
     return categories_url
 
 
@@ -89,7 +74,7 @@ def extract_recipe_ing(url):
         return -1
 
 
-def main_page(url):
+def goodie_main_page(url):
     all_recipes = []
     main_page = urlopen(url)
     soup = BeautifulSoup(main_page)
@@ -101,8 +86,6 @@ def main_page(url):
             recipe = extract_recipe_ing(url)
             if recipe != 1:
                 all_recipes.append(recipe)
-            if len(all_recipes) == 10:
-                break
 
     return all_recipes
 
