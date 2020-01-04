@@ -1,6 +1,6 @@
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
-from Integration import all_tags, get_new_recipe_id, ingredients_set
+from Integration import extractIngredientTags, get_new_recipe_id
 
 
 # FODIE WEBSITE
@@ -52,6 +52,7 @@ def extract_all_recipe_data(url):
         tags = []
         instructions = []
         name = ''
+        recipe_walla_id = 0
 
         #name
         nams_section = soup.find('h2', class_="title recipe")
@@ -85,7 +86,9 @@ def extract_all_recipe_data(url):
                 else:
                     instruction = instruction[0]
                 instructions.append(instruction)
-        return {"id": get_new_recipe_id(),"name": name, "url": url, "tags": tags, "ingredients": ingredients, "instructions": instructions}
+        recipe_walla_id = get_new_recipe_id()
+        tags = extractIngredientTags(ingredients, recipe_walla_id)
+        return {"id": recipe_walla_id, "name": name, "url": url, "tags": tags, "ingredients": ingredients, "instructions": instructions}
     except():
         return -1
 

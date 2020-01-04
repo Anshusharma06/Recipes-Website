@@ -1,13 +1,13 @@
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
-from Integration import all_tags, get_new_recipe_id, ingredients_set
+from Integration import extractIngredientTags, get_new_recipe_id
+import re
 
 
 # FODIE WEBSITE
 foodie_url = "https://foody.co.il/%D7%A7%D7%98%D7%92%D7%95%D7%A8%D7%99%D7%95%D7%AA/"
 
-
-
+Max_recipes = 20
 
 def find_main_page_categories_url(table_url):
     # gose all over the categories
@@ -24,7 +24,7 @@ def find_recipes_url_in_categories(categories_url):
     r_url = []
     # run on each categorie and take the recipe url
     for category_url in categories_url:
-        print("category: ", category_url, "\n")
+        # print("category: ", category_url, "\n")
         # try:
         category_page = urlopen(category_url)
         category_soup = BeautifulSoup(category_page)
@@ -49,6 +49,12 @@ def extract_recipe_ing(url):
         ing = []
         tags = []
         instr = []
+        name = ''
+
+        # name
+        name_section = soup.find('h1', class_='col p-0')
+        name = name_section.string
+
         # ingredient
         for t in table:
             d = t.find('span', class_='amount')
@@ -62,6 +68,7 @@ def extract_recipe_ing(url):
             i = amount_unit + " " + singular
             ing.append(i)
             tags.append(singular)
+
         # recipe
         recipe = soup.find_all('div', class_='foody-content')
         for r in recipe:
@@ -69,7 +76,9 @@ def extract_recipe_ing(url):
                 instructions_line = line.string
                 if not instructions_line is None:
                     instr.append(line.string)
-        return {"id": get_new_recipe_id(), "url": url, "tags": tags, "ingredients": ing, "instructions": instr}
+        recipe_goodie_id = get_new_recipe_id()
+        tags = extractIngredientTags(tags, recipe_goodie_id)
+        return {"id": recipe_goodie_id,"name": name, "url": url, "tags": tags, "ingredients": ing, "instructions": instr}
     except():
         return -1
 
@@ -86,8 +95,13 @@ def goodie_main_page(url):
             recipe = extract_recipe_ing(url)
             if recipe != 1:
                 all_recipes.append(recipe)
+            if len(all_recipes) == Max_recipes:
+                break
 
     return all_recipes
 
-# all_recipes = main_page('https://foody.co.il/%D7%A7%D7%98%D7%92%D7%95%D7%A8%D7%99%D7%95%D7%AA/')
+# all = goodie_main_page('https://foody.co.il/%D7%A7%D7%98%D7%92%D7%95%D7%A8%D7%99%D7%95%D7%AA/')
 
+
+# n ='\n\t\tהעיקר זה הרומנטיקה – סופלה שוקולד וקרמל של קרין גורן    '
+# print(re.sub('\W+\s','', n))
