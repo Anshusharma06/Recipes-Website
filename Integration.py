@@ -65,6 +65,17 @@ def get_new_recipe_id():
     return recipe_counter
 
 
+def cav_converted_tags_recipes():
+    output_list = []
+    for singl_tag in ingredients_set:
+        tag_id = ingrediens_tags_ids[singl_tag]
+        recipes_per_tsg = tags_to_recipes[tag_id]
+        output_list.append({"id":tag_id, "recipe_list": recipes_per_tsg})
+    return output_list
+
+
+
+
 # def add_to_tags_list(tags, recipe_id):
 #     for t in tags:
 #         all_tags[t] = all_tags[t].append(recipe_id)

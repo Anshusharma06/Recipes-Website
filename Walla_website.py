@@ -93,7 +93,7 @@ def extract_all_recipe_data(url):
         return -1
 
 
-def main_page(url):
+def walla_main_page(url):
     all_recipes = []
     categories_url = find_main_page_categories_url(url)
     r_url = find_recipes_url_in_category_page(categories_url)
@@ -104,6 +104,4 @@ def main_page(url):
                 all_recipes.append(recipe)
 
     return all_recipes
-
-all_recipes = main_page(foodie_url)
 
