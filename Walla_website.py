@@ -1,6 +1,6 @@
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
-from Integration import extractIngredientTags, get_new_recipe_id
+from DataAcsess import extractIngredientTags, get_new_recipe_id
 
 
 # FODIE WEBSITE
@@ -56,7 +56,8 @@ def extract_all_recipe_data(url):
 
         #name
         nams_section = soup.find('h2', class_="title recipe")
-        name = nams_section.span.string
+        if nams_section is not None:
+            name = nams_section.span.string
 
         ingredient_section = soup.find_all('ul', class_='box')
         # ingredient

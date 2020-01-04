@@ -1,6 +1,6 @@
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
-from Integration import extractIngredientTags, get_new_recipe_id
+from DataAcsess import extractIngredientTags, get_new_recipe_id
 import re
 
 

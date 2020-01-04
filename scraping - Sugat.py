@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 from functools import reduce
 from datetime import datetime
 from urllib.error import HTTPError
-from Integration import extractIngredientTags
+from DataAcsess import extractIngredientTags
 
 
 max_pages = 1

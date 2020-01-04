@@ -1,8 +1,13 @@
 
 recipe_counter = 0
+# recipes data
+# {"id": int, "name": str, "url": str, "tags": list, "ingredients": list<str>, "instructions": list<str>}
+all_recipes_data = []
 # id for all tags
+# [tag]=id
 ingrediens_tags_ids = {}
-# list of relevent recipes for each tag
+# list of relevant recipes for each tag
+# [id] = relevant recipes list (=[1,2,3])
 tags_to_recipes = {}
 # ingrediant tags possible
 ingredients_set = {' אבוקדו', ' אבטיח', 'אגוזי לוז', 'אגוזים', ' אוכמניות', ' אוראו', 'אורז'
