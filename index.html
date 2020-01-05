@@ -30,6 +30,16 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
     /* min-height: 400px; */
 }
+a {
+  color: inherit;
+}
+
+a:hover
+{
+     color:#00A0C6;
+     text-decoration:none;
+     cursor:pointer;
+}
 
 .loader {
   border: 16px solid #f3f3f3;
@@ -95,7 +105,7 @@ h1, h2, h3, h4, h5, h6 {
     <div class="col-lg-12" style="position: absolute;
     top: 151px;">
       <select class="selectpicker" multiple data-live-search="true">
-        <option>כוסברה</option>
+        <option>אורז</option>
         <option>עגבניות</option>
         <option>חציל</option>
         <option>פלפל</option>
@@ -176,11 +186,14 @@ function setRecipes(recipiesHtmlElements){
 }
 
 function createRecipeHtmlElement(recipe){
-  const ingredients = JSON.parse(recipe.ingredients);
+  const ingredients = recipe.ingredients;
   const instructions = recipe.instructions;
+  const name = recipe.name;
+  const url = recipe.url;
   return `
   <br><br>
   <hr>
+  <h1><a href="${url}" target="_blank">${name}</a></h1>
   <h4>מצרכים</h4>
   <ul>
     ${ingredients.map(ingredient => `<li>${ingredient}</li>`).join("")}

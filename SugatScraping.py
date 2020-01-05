@@ -1,15 +1,11 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[12]:
-
 
 from urllib.request import urlopen, Request
 from bs4 import BeautifulSoup
 from functools import reduce
 from datetime import datetime
 from urllib.error import HTTPError
-from DataAcsess import extractIngredientTags
+from DataAcsess import extractIngredientTags, get_new_recipe_id
+
 
 
 max_pages = 1
@@ -42,17 +38,21 @@ def getRecipeFromHtmlSoup(so):
     recipe = ol.find_all(text=True)
     return list(filter(filterIngredientUnwantedWords,recipe))
 
-recipe_id = 0
+def getRecipeNameFromSoup(so):
+    h1 =so.find("h1").find(text=True)
+    return h1
+
 
 def getRecipeData(recipe_url):
+    recipe_id = get_new_recipe_id()
     so = getSoupFromUrl(recipe_url)
     ingredients = getIngredientsFromHtmlSoup(so)
-    recipe = getRecipeFromHtmlSoup(so)
-    ingredientTags = extractIngredientTags(ingredients,recipe_id)
-    return (ingredients,recipe)
+    instructions = getRecipeFromHtmlSoup(so)
+    name = getRecipeNameFromSoup(so)
+    extractIngredientTags(ingredients,recipe_id)
+    return {'id': recipe_id, 'name': name, 'url': recipe_url,'instructions': instructions, 'ingredients' : ingredients}
     
     
-
 
 def getAllUrlsFromFirstRecipePage(url,page_number=1):
     getPostfixByIndex = lambda i: 'page/'+str(i)+'/'
@@ -71,16 +71,14 @@ def getAllUrlsFromFirstRecipePage(url,page_number=1):
     page_links = list(map(lambda div: div.find(href=True).get('href') ,recipes_in_page ))
     return page_links + getAllUrlsFromFirstRecipePage(url,page_number+1)
         
-        
-for recipe_type_url in all_recipes_types_urls:
-    recipe_id = recipe_id +1
-    recipes_urls = getAllUrlsFromFirstRecipePage(recipe_type_url)
-    recipe_and_ingrediant = list(map(getRecipeData,recipes_urls))
-    for x in recipe_and_ingrediant:
-        print(x)
-        print('\n')
+
+def scrapRecipes():
+    for recipe_type_url in all_recipes_types_urls:
+        recipes_urls = getAllUrlsFromFirstRecipePage(recipe_type_url)
+        recipes = list(map(getRecipeData,recipes_urls))
+        print("done scrapping from sugat")
+        return recipes
 
 
-
-
+# scrapRecipes()
 

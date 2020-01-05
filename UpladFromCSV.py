@@ -32,7 +32,7 @@ def get_recipes_data(url, tag):
 
 
 # output item in list: {'id': x , 'ingredients': [], 'instr': []}
-def upload_recipes_from_csc():
+def upload_recipes_from_csv():
     # the_tags_url,  the_recipe_data_url
     ingredients_list = get_recipes_data(the_ingredients_url, 'ingredients')
     instructions_list = get_recipes_data(the_instructions_url, 'instructions')
@@ -42,9 +42,14 @@ def upload_recipes_from_csc():
         ingredients = filter(lambda recipe: recipe['id'] == id, ingredients_list).__next__()
         instructions = filter(lambda recipe: recipe['id'] == id, instructions_list).__next__()
         general_data = filter(lambda recipe: recipe['id'] == id, general_data_list).__next__()
-        all_recipes_data.append({'id': id, 'name': general_data['name'], 'url': general_data['url'],
-                                 'ingredients': ingredients['ingredients'], 'instructions': instructions['instructions']})
+        all_recipes_data[int(id)] = {'name': general_data['name'], 'url': general_data['url'],
+                                 'ingredients': ingredients['ingredients'], 'instructions': instructions['instructions']}
 
 
 
-    tags_with_relevent_recipes = get_recipes_data(the_instructions_url, 'recipe_list')
+    tags_with_relevent_recipes = get_recipes_data(the_tags_url, 'recipe_list')
+    for element in tags_with_relevent_recipes:
+        tag_id = int(element['id'])
+        recipes_list = element['recipe_list']
+        tags_to_recipes[tag_id] = recipes_list
+

@@ -1,6 +1,6 @@
 from DataAcsess import tags_to_recipes, all_recipes_data
 from LoadToCSV import save_into_csv
-from UpladFromCSV import upload_recipes_from_csc
+from UpladFromCSV import upload_recipes_from_csv
 
 recipe_id = [0,1,2]
 names = ['hadas', 'atiya', 'hello']
@@ -21,8 +21,9 @@ for id in recipe_id:
 save_into_csv(data, tags_to_recipes)
 
 
-upload_recipes_from_csc()
+upload_recipes_from_csv()
 
 print(tags_to_recipes)
+print('=' * 80)
 print(all_recipes_data)
 
