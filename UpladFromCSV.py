@@ -2,6 +2,7 @@ import csv
 from DataAcsess import tags_to_recipes, all_recipes_data
 from LoadToCSV import the_tags_url,the_ingredients_url, the_instructions_url, the_recipe_data_url
 
+
 def get_recipes_general_data(url):
     all_recipes_general_data = []
     with open(url, 'r') as csvfile:
@@ -12,8 +13,8 @@ def get_recipes_general_data(url):
                 recipe_id = row[0]
                 recipe_name = row[1]
                 recipe_url = row[2]
-                recipes_data = recipes_data + [{'id': recipe_id, 'name': recipe_name, 'url':recipe_url}]
-    return recipes_data
+                all_recipes_general_data = all_recipes_general_data + [{'id': recipe_id, 'name': recipe_name, 'url':recipe_url}]
+    return all_recipes_general_data
 
 
 # return list of {'id': x, name:y}
@@ -30,7 +31,7 @@ def get_recipes_data(url, tag):
     return recipes_data
 
 
-# output item in list: {'id': x , 'ingredients': [],'instr': []}
+# output item in list: {'id': x , 'ingredients': [], 'instr': []}
 def upload_recipes_from_csc():
     # the_tags_url,  the_recipe_data_url
     ingredients_list = get_recipes_data(the_ingredients_url, 'ingredients')
