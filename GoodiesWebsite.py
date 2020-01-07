@@ -93,6 +93,7 @@ def extract_recipe_ing(url):
         instructions = get_recipe(soup)
         recipe_goodie_id = get_new_recipe_id()
         extractIngredientTags(tags, recipe_goodie_id)
+        print_progress(recipe_goodie_id)
         return {"id": recipe_goodie_id, "name": name, "url": url, "ingredients": ingredient, "instructions": instructions}
 
 
@@ -106,7 +107,6 @@ def goodie_main_page():
         try:
             recipe = extract_recipe_ing(url)
             all_recipes.append(recipe)
-            print_progress(recipe['id'])
         except:
             print('bad url:' + url)
     print("Goodie :Done")
