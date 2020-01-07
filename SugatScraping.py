@@ -8,7 +8,7 @@ from DataAcsess import extractIngredientTags, get_new_recipe_id
 
 
 
-max_pages = 1
+max_pages = 30
 
 
 
@@ -19,7 +19,7 @@ def getSoupFromUrl(url):
     return BeautifulSoup(html,features="lxml")
 
 # recipes url
-all_recipes_types_urls = ['https://www.sugat.com/recipes_cat/rice/']
+all_recipes_types_urls = ['https://www.sugat.com/recipes_cat/rice/','https://www.sugat.com/recipes_cat/meat/','https://www.sugat.com/recipes_cat/fish/','https://www.sugat.com/recipes_cat/side-dish/','https://www.sugat.com/recipes_cat/salad/','https://www.sugat.com/recipes_cat/stuffed/','https://www.sugat.com/recipes_cat/bread-and-pastry/','https://www.sugat.com/recipes_cat/soup/','https://www.sugat.com/recipes_cat/dessert/','https://www.sugat.com/recipes_cat/casserole/','https://www.sugat.com/recipes_cat/healthy/','https://www.sugat.com/recipes_cat/vegetarian/','https://www.sugat.com/recipes_cat/vegan/','https://www.sugat.com/recipes_cat/cakes-and-cookies/','https://www.sugat.com/recipes_cat/kids/','https://www.sugat.com/recipes_cat/pasta/','https://www.sugat.com/holidays']
 
 
 
@@ -42,17 +42,24 @@ def getRecipeNameFromSoup(so):
     h1 =so.find("h1").find(text=True)
     return h1
 
+def printProgress(id):
+    if id%10==0:
+        print(str(id)+ " recipes have scrapped - Sugat")
+
 
 def getRecipeData(recipe_url):
-    recipe_id = get_new_recipe_id()
-    so = getSoupFromUrl(recipe_url)
-    ingredients = getIngredientsFromHtmlSoup(so)
-    instructions = getRecipeFromHtmlSoup(so)
-    name = getRecipeNameFromSoup(so)
-    extractIngredientTags(ingredients,recipe_id)
-    return {'id': recipe_id, 'name': name, 'url': recipe_url,'instructions': instructions, 'ingredients' : ingredients}
-    
-    
+    try:
+        so = getSoupFromUrl(recipe_url)
+        ingredients = getIngredientsFromHtmlSoup(so)
+        instructions = getRecipeFromHtmlSoup(so)
+        name = getRecipeNameFromSoup(so)
+        recipe_id = get_new_recipe_id()
+        extractIngredientTags(ingredients,recipe_id)
+        printProgress(recipe_id)
+        return {'id': recipe_id, 'name': name, 'url': recipe_url,'instructions': instructions, 'ingredients' : ingredients }
+    except:
+       pass
+
 
 def getAllUrlsFromFirstRecipePage(url,page_number=1):
     getPostfixByIndex = lambda i: 'page/'+str(i)+'/'
@@ -60,9 +67,7 @@ def getAllUrlsFromFirstRecipePage(url,page_number=1):
         return []
     try:
         so = getSoupFromUrl(url +getPostfixByIndex(page_number))
-        print(page_number)
     except HTTPError as err:
-        print(err)
         return []
     recipes_in_page = so.find_all("div", class_ = "s-recipe-category__col")
     if recipes_in_page is None:
@@ -74,11 +79,13 @@ def getAllUrlsFromFirstRecipePage(url,page_number=1):
 
 def scrapRecipes():
     for recipe_type_url in all_recipes_types_urls:
-        recipes_urls = getAllUrlsFromFirstRecipePage(recipe_type_url)
-        recipes = list(map(getRecipeData,recipes_urls))
-        print("done scrapping from sugat")
-        return recipes
+        try:
+            recipes_urls = getAllUrlsFromFirstRecipePage(recipe_type_url)
+            print("gots urls")
+            recipes = list(map(getRecipeData,recipes_urls))
+            print("done scrapping from sugat")
+            return recipes
+        except:
+            pass
 
-
-# scrapRecipes()
 

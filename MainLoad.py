@@ -28,5 +28,3 @@ def ScrapDataAndSaveToCsv():
     all_recipes = scrapFromWebsites()
     saveSataToCsv(all_recipes)
 
-
-ScrapDataAndSaveToCsv()

@@ -22,10 +22,15 @@ def get_recipes_from_ids(ids):
     return list(map(lambda id: all_recipes_data[id],ids))
 
 def getRecipes(ingredients):
-    initialTags()
-    upload_recipes_from_csv()
     ingredients_ids = convertIngredientsNamesToIds(ingredients)
     compatible_recipes_ids = get_compatible_recipes_ids(ingredients_ids)
     recipes = get_recipes_from_ids(compatible_recipes_ids)
     return recipes
+
+def getNumberOfRecipes():
+    return len(all_recipes_data)
+
+def Init():
+    initialTags()
+    upload_recipes_from_csv()
 

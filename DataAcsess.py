@@ -33,6 +33,50 @@ ingredients_set = {'אבוקדו', 'אבטיח', 'אגוזי לוז', 'אגוז�
        , 'שמרים', 'שעועית ירוקה', 'שקדים', 'תותים', 'תירס', 'תמרים'
        , 'תפוזים', 'תפוזים סינים', 'תפוחי אדמה', 'תפוחי עץ', 'תרד'}
 
+ingredients_variants_set ={}
+ingredients_variants_set['עגבניה'] = 'עגבניות'
+ingredients_variants_set['אוכמניה'] = 'אוכמניות'
+ingredients_variants_set['אגוז'] = 'אגוזים'
+ingredients_variants_set['אבטיחים'] = 'אבטיח'
+ingredients_variants_set['אבוקדואים'] = 'אבוקדו'
+ingredients_variants_set['בצלים'] = 'בצל'
+ingredients_variants_set['בננות'] = 'בננה'
+ingredients_variants_set['בשרים'] = 'בשר'
+ingredients_variants_set['ברוקולים'] = 'ברוקולי'
+ingredients_variants_set['גזרים'] = 'גזר'
+ingredients_variants_set['גבינות'] = 'גבינה'
+ingredients_variants_set['דובדבן'] = 'דובדבנים'
+ingredients_variants_set['דג'] = 'דגים'
+ingredients_variants_set['וופלות'] = 'וופל'
+ingredients_variants_set['חצילים'] = 'חציל'
+ingredients_variants_set['חסות'] = 'חסה'
+ingredients_variants_set['כרובים'] = 'כרוב'
+ingredients_variants_set['ירק'] = 'ירקות'
+ingredients_variants_set['יוגורטים'] = 'יוגורט'
+ingredients_variants_set['מנגוים'] = 'מנגו'
+ingredients_variants_set['מלונים'] = 'מלון'
+ingredients_variants_set['לימונים'] = 'לימון'
+ingredients_variants_set['כרישות'] = 'כרישה'
+ingredients_variants_set['משמשים'] = 'משמש'
+ingredients_variants_set['מרציפנים'] = 'מרציפן'
+ingredients_variants_set['מצות'] = 'מצה'
+ingredients_variants_set['עופות'] = 'עוף'
+ingredients_variants_set['פטריה'] = 'פטריות'
+ingredients_variants_set['פסטות'] = 'פסטה'
+ingredients_variants_set['פלפל'] = 'פלפלים'
+ingredients_variants_set['פיתות'] = 'פיתה'
+ingredients_variants_set['פרי'] = 'פירות'
+ingredients_variants_set['פרגיות'] = 'פרגית'
+ingredients_variants_set['קישוא'] = 'קישואים'
+ingredients_variants_set['ריבות'] = 'ריבה'
+ingredients_variants_set['קרקר'] = 'קרקרים'
+ingredients_variants_set['שוקולדים'] = 'שוקולד'
+ingredients_variants_set['תמר'] = 'תמרים'
+ingredients_variants_set['תות'] = 'תותים'
+ingredients_variants_set['תפוז'] = 'תפוזים'
+
+
+
 ingredients_list = ['אבוקדו', 'אבטיח', 'אגוזי לוז', 'אגוזים', 'אוכמניות', 'אוראו', 'אורז'
        , 'אטריות', 'אטריות אורז', 'ארטישוק', 'בזיליקום', 'בננה', 'בצל', 'בצל ירוק'
        , 'בצק סוכר', 'בצק עלים', 'בצק פריך', 'בצקניות', 'ברוקולי', 'בשר', "ג'לי"
@@ -81,9 +125,12 @@ def extractIngredientTags(ingredients, recipe_id):
     for ingredient in ingredients:
         words = ingredient.split()
         for word in words:
-            if word in ingredients_set:
-                tag_id = tag_name_to_id[word]
+            if word in ingredients_set or word in ingredients_variants_set:
+                tag_id = getTagIdFromTagName(word)
                 tags_to_recipes[tag_id].add(recipe_id)
+
+def getTagIdFromTagName(name):
+    return tag_name_to_id[ingredients_variants_set[name]] if name in ingredients_variants_set else tag_name_to_id[name]
 
 
 def get_new_recipe_id():
@@ -95,7 +142,7 @@ def get_new_recipe_id():
 def csv_converted_tags_recipes():
     output_list = []
     for singl_tag in ingredients_list:
-        tag_id = tag_name_to_id[singl_tag]
+        tag_id = getTagIdFromTagName(singl_tag)
         recipes_per_tsg = list(tags_to_recipes[tag_id])
         output_list.append({"id":tag_id, "recipe_list": recipes_per_tsg})
     return output_list
