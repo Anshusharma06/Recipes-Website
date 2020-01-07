@@ -12,11 +12,13 @@ def save_general_csv(csv_url, current_list, tag, optional_tag):
         writer = csv.writer(csvfile, delimiter=' ',
                             quotechar='|', quoting=csv.QUOTE_MINIMAL)
         for item in current_list:
-            if optional_tag is None:
-                writer.writerow([item["id"]] + item[tag])
-            else:
-                writer.writerow([item["id"]] + [item[tag]] + [item[optional_tag]])
-
+            try:
+                if optional_tag is None:
+                    writer.writerow([item["id"]] + item[tag])
+                else:
+                    writer.writerow([item["id"]] + [item[tag]] + [item[optional_tag]])
+            except:
+                pass
 
 # item in list: {id: int,'url': '', 'tags': [], 'ingredients': [],'instructions': [],name: ''}
 def save_into_csv(recipes_list, tags_list):

@@ -18,38 +18,36 @@ def get_recipes_general_data(url):
 
 
 # return list of {'id': x, name:y}
-def get_recipes_data(url, tag):
-    recipes_data = []
+def get_recipes_data(url):
+    recipes_data = {}
     with open(url, 'r') as csvfile:
         reader = csv.reader(csvfile, delimiter=' ', quotechar='|')
         for row in reader:
             # the row is not empty
             if len(row) > 0:
-                recipe_id = row[0]
+                recipe_id = int(row[0])
                 content = row[1:]
-                recipes_data = recipes_data + [{'id': recipe_id, tag: content}]
+                recipes_data[recipe_id] = content
     return recipes_data
 
 
 # output item in list: {'id': x , 'ingredients': [], 'instr': []}
 def upload_recipes_from_csv():
     # the_tags_url,  the_recipe_data_url
-    ingredients_list = get_recipes_data(the_ingredients_url, 'ingredients')
-    instructions_list = get_recipes_data(the_instructions_url, 'instructions')
+    ingredients_list = get_recipes_data(the_ingredients_url)
+    instructions_list = get_recipes_data(the_instructions_url)
     general_data_list = get_recipes_general_data(the_recipe_data_url)
-    for recipe_line in ingredients_list:
-        id = recipe_line['id']
-        ingredients = filter(lambda recipe: recipe['id'] == id, ingredients_list).__next__()
-        instructions = filter(lambda recipe: recipe['id'] == id, instructions_list).__next__()
-        general_data = filter(lambda recipe: recipe['id'] == id, general_data_list).__next__()
-        all_recipes_data[int(id)] = {'name': general_data['name'], 'url': general_data['url'],
-                                 'ingredients': ingredients['ingredients'], 'instructions': instructions['instructions']}
+    for id in ingredients_list:
+        ingredients = ingredients_list[id]
+        instructions = instructions_list[id]
+        name = general_data_list[0]
+        url = general_data_list[1]
+        all_recipes_data[id] = {'name': name, 'url': url, 'ingredients': ingredients, 'instructions': instructions}
 
 
 
-    tags_with_relevent_recipes = get_recipes_data(the_tags_url, 'recipe_list')
-    for element in tags_with_relevent_recipes:
-        tag_id = int(element['id'])
-        recipes_list = element['recipe_list']
+    tags_with_relevent_recipes = get_recipes_data(the_tags_url)
+    for tag_id in tags_with_relevent_recipes:
+        recipes_list = tags_with_relevent_recipes[tag_id]
         tags_to_recipes[tag_id] = recipes_list
 

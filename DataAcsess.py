@@ -78,15 +78,12 @@ def initialTags():
 
 
 def extractIngredientTags(ingredients, recipe_id):
-    tags = []
     for ingredient in ingredients:
         words = ingredient.split()
         for word in words:
             if word in ingredients_set:
                 tag_id = tag_name_to_id[word]
                 tags_to_recipes[tag_id].add(recipe_id)
-                tags.append(word)
-    return tags
 
 
 def get_new_recipe_id():
@@ -104,12 +101,8 @@ def csv_converted_tags_recipes():
     return output_list
 
 
-
-
-
-
-
-# def add_to_tags_list(tags, recipe_id):
-#     for t in tags:
-#         all_tags[t] = all_tags[t].append(recipe_id)
-
+def print_progress(num):
+    if num == 50:
+        print("\n")
+    else:
+        print('|', end='')
