@@ -1,4 +1,4 @@
-
+5
 recipe_counter = 0
 # recipes data
 # {"id": int, "name": str, "url": str, "tags": list, "ingredients": list<str>, "instructions": list<str>}
