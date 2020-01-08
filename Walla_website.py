@@ -106,7 +106,7 @@ def extract_all_recipe_data(url):
     instructions = get_recipe(soup)
     recipe_walla_id = get_new_recipe_id()
     extractIngredientTags(ingredients, recipe_walla_id)
-    print_progress(recipe_walla_id)
+    print_progress(recipe_walla_id,'Walla')
     return {"id": recipe_walla_id, "name": name, "url": url, "ingredients": ingredients, "instructions": instructions}
 
 

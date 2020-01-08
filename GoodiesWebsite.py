@@ -7,12 +7,9 @@ from DataAcsess import extractIngredientTags, get_new_recipe_id, print_progress
 # FODIE WEBSITE
 foodie_url = "https://foody.co.il/%D7%A7%D7%98%D7%92%D7%95%D7%A8%D7%99%D7%95%D7%AA/"
 
-Max_page = '2'
+Max_page = '40'
 
 def getSoupFromUrl(url):
-    # req = Request(url, headers={'User-Agent' : "Magic Browser"})
-    # con = urlopen( req )
-    # html = con.read()
     html = urlopen(url)
     return BeautifulSoup(html,features="lxml")
 
@@ -79,41 +76,50 @@ def get_recipe(soup_for_recipe):
     instructions_output = []
     recipe = soup_for_recipe.find_all('div', class_='foody-content')
     for r in recipe:
-        for line in r.find_all('li'):
-            instructions_line = line.string
-            if not instructions_line is None:
-                instructions_output.append(line.string)
+        all_r = r.find_all('li')
+        instructions_output = [line.string for line in all_r if not line.string is None]
+        # instructions_output = list(map(lambda line: line.string if not line.string is None else None,all_r))
+        # for line in all_r:
+        #     instructions_line = line.string
+        #     if not instructions_line is None:
+        #         instructions_output.append(line.string)
     return instructions_output
 
 
 def extract_recipe_ing(url):
+    try:
         soup = getSoupFromUrl(url)
         ingredient, tags = get_ingredient(soup)
         name = get_name(soup)
         instructions = get_recipe(soup)
         recipe_goodie_id = get_new_recipe_id()
         extractIngredientTags(tags, recipe_goodie_id)
-        print_progress(recipe_goodie_id)
+        print_progress(recipe_goodie_id,'Goodies')
         return {"id": recipe_goodie_id, "name": name, "url": url, "ingredients": ingredient, "instructions": instructions}
+    except:
+        pass
 
 
-
+import time
 def goodie_main_page():
-    all_recipes = []
+    # all_recipes = []
     categories_url = find_main_page_categories_url(foodie_url)
     r_url = find_recipes_url_in_categories(categories_url)
 
-    for url in r_url:
-        try:
-            recipe = extract_recipe_ing(url)
-            all_recipes.append(recipe)
-        except:
-            print('bad url:' + url)
+    all_recipes = [extract_recipe_ing(url) for url in r_url]
+    # for url in r_url:
+    #
+    #     try:
+    #         recipe = extract_recipe_ing(url)
+    #         all_recipes.append(recipe)
+    #
+    #     except:
+    #         print('bad url:' + url)
     print("Goodie :Done")
     return all_recipes
 
 # all = goodie_main_page('https://foody.co.il/%D7%A7%D7%98%D7%92%D7%95%D7%A8%D7%99%D7%95%D7%AA/')
-
+# goodie_main_page()
 
 # n ='\n\t\tהעיקר זה הרומנטיקה – סופלה שוקולד וקרמל של קרין גורן    '
 # print(re.sub('\W+\s','', n))

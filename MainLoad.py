@@ -11,10 +11,9 @@ def scrapFromWebsites():
     print("start scrapping")
     walla_recipes = walla_main_page()
     foodie_recipes = goodie_main_page()
-    print("\nfoodies num of recipes" + str(len(foodie_recipes)))
     sugat_recipes = scrapRecipes()
     # {id: int, 'url': '', 'tags': [], 'ingredients': [],'instructions': [],name: ''}
-    all_recipes =  foodie_recipes + walla_recipes + foodie_recipes
+    all_recipes =  sugat_recipes + walla_recipes + foodie_recipes
     print("done scraping")
     return all_recipes
 
@@ -28,3 +27,4 @@ def ScrapDataAndSaveToCsv():
     all_recipes = scrapFromWebsites()
     saveSataToCsv(all_recipes)
 
+ScrapDataAndSaveToCsv()

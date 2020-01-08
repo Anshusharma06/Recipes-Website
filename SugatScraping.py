@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from functools import reduce
 from datetime import datetime
 from urllib.error import HTTPError
-from DataAcsess import extractIngredientTags, get_new_recipe_id
+from DataAcsess import extractIngredientTags, get_new_recipe_id,print_progress
 
 
 
@@ -20,8 +20,6 @@ def getSoupFromUrl(url):
 
 # recipes url
 all_recipes_types_urls = ['https://www.sugat.com/recipes_cat/rice/','https://www.sugat.com/recipes_cat/meat/','https://www.sugat.com/recipes_cat/fish/','https://www.sugat.com/recipes_cat/side-dish/','https://www.sugat.com/recipes_cat/salad/','https://www.sugat.com/recipes_cat/stuffed/','https://www.sugat.com/recipes_cat/bread-and-pastry/','https://www.sugat.com/recipes_cat/soup/','https://www.sugat.com/recipes_cat/dessert/','https://www.sugat.com/recipes_cat/casserole/','https://www.sugat.com/recipes_cat/healthy/','https://www.sugat.com/recipes_cat/vegetarian/','https://www.sugat.com/recipes_cat/vegan/','https://www.sugat.com/recipes_cat/cakes-and-cookies/','https://www.sugat.com/recipes_cat/kids/','https://www.sugat.com/recipes_cat/pasta/','https://www.sugat.com/holidays']
-
-
 
 def filterIngredientUnwantedWords(x):
     return x != '\n' and x !='קרא עוד' and x!='\xa0'
@@ -42,11 +40,6 @@ def getRecipeNameFromSoup(so):
     h1 =so.find("h1").find(text=True)
     return h1
 
-def printProgress(id):
-    if id%10==0:
-        print(str(id)+ " recipes have scrapped - Sugat")
-
-
 def getRecipeData(recipe_url):
     try:
         so = getSoupFromUrl(recipe_url)
@@ -55,7 +48,7 @@ def getRecipeData(recipe_url):
         name = getRecipeNameFromSoup(so)
         recipe_id = get_new_recipe_id()
         extractIngredientTags(ingredients,recipe_id)
-        printProgress(recipe_id)
+        print_progress(recipe_id,'Sugat')
         return {'id': recipe_id, 'name': name, 'url': recipe_url,'instructions': instructions, 'ingredients' : ingredients }
     except:
        pass
@@ -78,14 +71,16 @@ def getAllUrlsFromFirstRecipePage(url,page_number=1):
         
 
 def scrapRecipes():
+    recipes=[]
     for recipe_type_url in all_recipes_types_urls:
         try:
             recipes_urls = getAllUrlsFromFirstRecipePage(recipe_type_url)
             print("gots urls")
-            recipes = list(map(getRecipeData,recipes_urls))
-            print("done scrapping from sugat")
-            return recipes
+            recipes = recipes +  list(map(getRecipeData,recipes_urls))
         except:
             pass
+    print("done scrapping from sugat")
+    return recipes
+
 
 

@@ -148,8 +148,6 @@ def csv_converted_tags_recipes():
     return output_list
 
 
-def print_progress(num):
-    if num == 50:
-        print("\n")
-    else:
-        print('|', end='')
+def print_progress(id,site_name):
+    if id%20==0:
+        print(str(id)+ " recipes have scrapped - " + site_name)

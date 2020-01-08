@@ -4,16 +4,16 @@ from LoadToCSV import the_tags_url,the_ingredients_url, the_instructions_url, th
 
 
 def get_recipes_general_data(url):
-    all_recipes_general_data = []
+    all_recipes_general_data = {}
     with open(url, 'r') as csvfile:
         reader = csv.reader(csvfile, delimiter=' ', quotechar='|')
         for row in reader:
             # the row is not empty
             if len(row) > 0:
-                recipe_id = row[0]
+                recipe_id = int(row[0])
                 recipe_name = row[1]
                 recipe_url = row[2]
-                all_recipes_general_data = all_recipes_general_data + [{'id': recipe_id, 'name': recipe_name, 'url':recipe_url}]
+                all_recipes_general_data[recipe_id] = {'name': recipe_name, 'url':recipe_url}
     return all_recipes_general_data
 
 
@@ -40,8 +40,8 @@ def upload_recipes_from_csv():
     for id in ingredients_list:
         ingredients = ingredients_list[id]
         instructions = instructions_list[id]
-        name = general_data_list[0]
-        url = general_data_list[1]
+        name = general_data_list[id]['name']
+        url = general_data_list[id]['url']
         all_recipes_data[id] = {'name': name, 'url': url, 'ingredients': ingredients, 'instructions': instructions}
 
 
