@@ -9,9 +9,9 @@ from SugatScraping import scrapRecipes
 
 def scrapFromWebsites():
     print("start scrapping")
+    sugat_recipes = scrapRecipes()
     walla_recipes = walla_main_page()
     foodie_recipes = goodie_main_page()
-    sugat_recipes = scrapRecipes()
     # {id: int, 'url': '', 'tags': [], 'ingredients': [],'instructions': [],name: ''}
     all_recipes =  sugat_recipes + walla_recipes + foodie_recipes
     print("done scraping")
