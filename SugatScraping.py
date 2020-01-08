@@ -72,15 +72,14 @@ def getAllUrlsFromFirstRecipePage(url,page_number=1):
 
 def scrapRecipes():
     recipes=[]
+    all_urls=[]
     for recipe_type_url in all_recipes_types_urls:
         try:
-            recipes_urls = getAllUrlsFromFirstRecipePage(recipe_type_url)
-            print("gots urls")
-            recipes = recipes +  list(map(getRecipeData,recipes_urls))
+            all_urls = all_urls + getAllUrlsFromFirstRecipePage(recipe_type_url)
+            print("done")
         except:
             pass
+    all_urls = list(set(all_urls))
+    recipes = recipes + list(map(getRecipeData, all_urls))
     print("done scrapping from sugat")
     return recipes
-
-
-
