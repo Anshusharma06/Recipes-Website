@@ -1,6 +1,6 @@
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
-from Data.DataAcsess import extractIngredientTags, get_new_recipe_id, print_progress
+from DataAcsess import extractIngredientTags, get_new_recipe_id, print_progress
 
 
 

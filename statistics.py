@@ -1,7 +1,10 @@
-from Loaders.LoadFromCSV import upload_recipes_from_csv
-from Data.DataAcsess import tags_to_recipes, ingredients_list
-
+from Loaders.LoadFromCSV import upload_recipes_from_csv,the_tags_url
+from Data.DataAcsess import tags_to_recipes, ingredients_list, getTagIdFromTagName
+from Loaders.LoadToCSV import save_general_csv
 upload_recipes_from_csv()
+
+# import copy
+# original_tags_to_recipes = copy.deepcopy(tags_to_recipes)
 
 tags_size = {k: len(v) for k, v in tags_to_recipes.items()}
 sorted_tags_size_revers = {k: v for k, v in sorted(tags_size.items(), key=lambda item: item[1], reverse=True)}
@@ -28,5 +31,6 @@ for tag in sorted_tags_size:
     counter = counter + 1
 
 
-# for recip in all_recipes_data:
-#     extractIngredientTags(all_recipes_data[recip]['ingredients'], recip)
+# recepies with avocado
+id = getTagIdFromTagName('אבוקדו')
+print("avocado been tag to :",sorted_tags_size[id], 'number of recipes')

@@ -1,4 +1,4 @@
-5
+
 recipe_counter = 0
 # recipes data
 # {"id": int, "name": str, "url": str, "tags": list, "ingredients": list<str>, "instructions": list<str>}
@@ -119,14 +119,25 @@ def initialTags():
 
 
 def extractIngredientTags(ingredients, recipe_id):
-    combined_list = list(ingredients_variants_set.values())
-    combined_list = combined_list + ingredients_list
-    for tag in combined_list:
+    tags_found = []
+    # check tags from ingredients_list
+    for tag in ingredients_list:
         for ingredient in ingredients:
             if tag in ingredient:
                 tag_id = getTagIdFromTagName(tag)
                 tags_to_recipes[tag_id].add(recipe_id)
+                tags_found = tags_found + [tag]
                 break
+    # check tags from ingredients_variants_set
+    for (original, variant) in ingredients_variants_set.items():
+        for ingredient in ingredients:
+            # check that recipe not already been tag by this tag
+            if variant not in tags_found:
+                if original in ingredient:
+                    tag_id = getTagIdFromTagName(variant)
+                    tags_to_recipes[tag_id].add(recipe_id)
+                    break
+
 
 
 def getTagIdFromTagName(name):
@@ -151,3 +162,7 @@ def csv_converted_tags_recipes():
 def print_progress(id,site_name):
     if id%20==0:
         print(str(id)+ " recipes have scrapped - " + site_name)
+
+def update_tags():
+    for recipe in all_recipes_data:
+        extractIngredientTags(all_recipes_data[recipe]['ingredients'], recipe)
