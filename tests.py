@@ -1,6 +1,6 @@
 from DataAcsess import tags_to_recipes, all_recipes_data
 from LoadToCSV import save_into_csv
-from UpladFromCSV import upload_recipes_from_csv
+from LoadFromCSV import upload_recipes_from_csv
 
 recipe_id = [0,1,2]
 names = ['hadas', 'atiya', 'hello']
