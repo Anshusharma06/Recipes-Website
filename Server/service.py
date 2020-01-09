@@ -1,5 +1,5 @@
-from DataAcsess import initialTags, tag_name_to_id , tags_to_recipes, all_recipes_data
-from LoadFromCSV import upload_recipes_from_csv
+from Data.DataAcsess import initialTags, tag_name_to_id , tags_to_recipes, all_recipes_data
+from Loaders.LoadFromCSV import upload_recipes_from_csv
 
 import functools
 

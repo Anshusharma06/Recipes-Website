@@ -1,9 +1,9 @@
 import csv
 
-the_tags_url = 'tags.csv'
-the_ingredients_url = 'ingredients.csv'
-the_instructions_url = 'instructions.csv'
-the_recipe_data_url = 'data.csv'
+the_tags_url = '../Data/tags.csv'
+the_ingredients_url = '../Data/ingredients.csv'
+the_instructions_url = '../Data/instructions.csv'
+the_recipe_data_url = '../Data/data.csv'
 
 
 # item in list: {id: int,'url': '', 'tags': [], 'ingredients': [],'instructions': [],name: ''}

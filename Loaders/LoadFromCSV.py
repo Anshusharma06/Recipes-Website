@@ -1,6 +1,6 @@
 import csv
-from DataAcsess import tags_to_recipes, all_recipes_data, initialTags
-from LoadToCSV import the_tags_url,the_ingredients_url, the_instructions_url, the_recipe_data_url
+from Data.DataAcsess import tags_to_recipes, all_recipes_data, initialTags
+from Loaders.LoadToCSV import the_tags_url,the_ingredients_url, the_instructions_url, the_recipe_data_url
 
 
 def get_recipes_general_data(url):

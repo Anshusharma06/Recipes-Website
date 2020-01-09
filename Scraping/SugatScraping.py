@@ -2,9 +2,8 @@
 from urllib.request import urlopen, Request
 from bs4 import BeautifulSoup
 from functools import reduce
-from datetime import datetime
 from urllib.error import HTTPError
-from DataAcsess import extractIngredientTags, get_new_recipe_id,print_progress
+from Data.DataAcsess import extractIngredientTags, get_new_recipe_id,print_progress
 
 
 

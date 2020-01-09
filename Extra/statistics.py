@@ -1,6 +1,5 @@
-from LoadFromCSV import upload_recipes_from_csv
-from DataAcsess import tags_to_recipes, ingredients_list, all_recipes_data, extractIngredientTags, getTagIdFromTagName, csv_converted_tags_recipes
-from LoadToCSV import save_general_csv,the_tags_url
+from Loaders.LoadFromCSV import upload_recipes_from_csv
+from Data.DataAcsess import tags_to_recipes, ingredients_list
 
 upload_recipes_from_csv()
 

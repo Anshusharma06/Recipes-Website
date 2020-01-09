@@ -1,6 +1,6 @@
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
-from DataAcsess import extractIngredientTags, get_new_recipe_id, print_progress
+from Data.DataAcsess import extractIngredientTags, get_new_recipe_id, print_progress
 
 
 
@@ -100,7 +100,6 @@ def extract_recipe_ing(url):
         pass
 
 
-import time
 def goodie_main_page():
     # all_recipes = []
     categories_url = find_main_page_categories_url(foodie_url)
