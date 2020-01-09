@@ -1,11 +1,12 @@
 
 from flask import Flask,jsonify,request
-from Server.service import getRecipes, getNumberOfRecipes,Init
+from service import getRecipes, getNumberOfRecipes,Init
 import json
 import webbrowser
-import os
-from Loaders.MainLoad import ScrapDataAndSaveToCsv
+from MainLoad import ScrapDataAndSaveToCsv
 import sys
+from LoadFromCSV import upload_recipes_from_csv
+import os
 
 debugMode= False
 args = sys.argv

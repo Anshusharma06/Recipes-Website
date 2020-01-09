@@ -1,10 +1,10 @@
-from Loaders.LoadFromCSV import upload_recipes_from_csv,the_tags_url
-from Data.DataAcsess import tags_to_recipes, ingredients_list, getTagIdFromTagName
-from Loaders.LoadToCSV import save_general_csv
+from LoadFromCSV import upload_recipes_from_csv,the_tags_url
+from DataAcsess import tags_to_recipes, ingredients_list, getTagIdFromTagName,update_tags, csv_converted_tags_recipes, all_recipes_data
+from LoadToCSV import save_general_csv
+import csv
+
 upload_recipes_from_csv()
 
-# import copy
-# original_tags_to_recipes = copy.deepcopy(tags_to_recipes)
 
 tags_size = {k: len(v) for k, v in tags_to_recipes.items()}
 sorted_tags_size_revers = {k: v for k, v in sorted(tags_size.items(), key=lambda item: item[1], reverse=True)}
@@ -33,4 +33,17 @@ for tag in sorted_tags_size:
 
 # recepies with avocado
 id = getTagIdFromTagName('אבוקדו')
-print("avocado been tag to :",sorted_tags_size[id], 'number of recipes')
+print("avocado been tag to :", sorted_tags_size[id], 'number of recipes')
+
+
+
+# this make a csv file that contain how much recipes each tags has
+# with open('statistics.csv', 'w') as csvfile:
+#     fieldnames = ['ingredient', 'amount']
+#     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+#
+#     writer.writeheader()
+#     for ing in sorted_tags_size_revers:
+#         writer.writerow({'ingredient': ingredients_list[ing], 'amount': sorted_tags_size_revers[ing]})
+
+

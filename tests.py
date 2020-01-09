@@ -1,7 +1,9 @@
-from Data.DataAcsess import all_recipes_data
-from Loaders.LoadToCSV import save_into_csv
-from Loaders.LoadFromCSV import upload_recipes_from_csv
+from DataAcsess import all_recipes_data
+from LoadToCSV import save_into_csv
+from LoadFromCSV import upload_recipes_from_csv
 
+# tests the load to and from csv - DO NOT RUN
+# IT WILL DELETE THE CURRENT DATA EXIST!!!!!
 recipe_id = [0,1,2]
 names = ['hadas', 'atiya', 'hello']
 url =['aaa', 'bbbb', 'ccc']
